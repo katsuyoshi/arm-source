@@ -37,7 +37,8 @@ Then(/^問題 "(.*?)"　が表示される。$/) do |message|
 end
 
 Given(/^現在の状態"(.*?)"を与える$/) do |arg1|
-  @analyzer = Sudoku::Analyzer.new(arg1, output)
+  @analyzer = Sudoku::Analyzer.new(nil, output)
+  @analyzer.set arg1.gsub("*", " ")
 end
 
 When(/^\#analize_left_columns"(.*?)" を呼び出すと$/) do |arg1|
@@ -45,5 +46,5 @@ When(/^\#analize_left_columns"(.*?)" を呼び出すと$/) do |arg1|
 end
 
 Then(/^次の状態"(.*?)"にになること。$/) do |arg1|
-  @analyzer.current.should == arg1
+  @analyzer.current.join("").should == arg1.gsub("*", " ")
 end

@@ -24,9 +24,10 @@ module Sudoku
     def current
       @condition
     end
-    
+        
     def analyze_left_columns number
-p "condition", @condition
+      # 左3列からnumberを探してrに該当列を入れる
+      # 横に走査して数値があるか見ていく
       n = number.to_s
       r = [nil, nil, nil]
       column_condition = []
@@ -42,14 +43,19 @@ p "condition", @condition
           end
         end
       end
-p r, column_condition
+
+      # rのnilの数で状態を判定
       case r.count(nil)
       when 0
+        # nilがないなら既に数値は埋まっている
         p "done"
       when 1
+        # nilが1つなら推測可能(但し埋められるかは分らない)
         p "can search"
         row = nil
         column = nil
+        # nilの位置で上、中、下どの3行を探索するか判定
+        # 該当する3行をblockに取出す
         case r.index nil
         when 0
           row = 0
@@ -61,34 +67,33 @@ p r, column_condition
           row = 6
           block = column_condition[6, 3]
         end
-p block
+
+        # nilを削除して並べ替えてどの列を走査するか決定する
         r.delete(nil)
         r.sort!
-        line = nil
         if r[0] == 0
           if r[1] == 1
             #search 2 column
-            line = block.map{|l| l[2]}
             column = 2
           else
             #search 1 column
-            line = block.map{|l| l[1]}
             column = 1
           end
         else
           # search 0 column
-          line = block.map{|l| l[0]}
           column = 0
         end
-p line
+        # 該当列を縦に取出す
+        line = block.map{|l| l[column]}
+        # 一つだけ空いている場合は数値を埋めれる
         if line.count(" ") == 1
           row += line.index(" ")
           @condition[row][column] = n
-p "condition", @condition, self.current
 p "I god it!!!"
         end
       else
-        p "I'm wondering"
+        # 複数nilがあれば埋められない
+p "I'm wondering"
       end
     end
     

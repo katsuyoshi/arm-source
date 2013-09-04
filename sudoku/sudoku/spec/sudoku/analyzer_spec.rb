@@ -60,28 +60,28 @@ module Sudoku
 
     describe "#analyze_left_columns" do
 
-      @before = [
-                  "  2   4  ",
-                  "   28 793",
-                  " 4 16728 ",
-                  "2  73 15 ",
-                  " 31   97 ",
-                  " 75 91  2",
-                  " 57842 3 ",
-                  "469 75   ",
-                  "  8   5  " ]
-      @after = [
-                  "  2   4  ",
-                  "   28 793",
-                  " 4 16728 ",
-                  "2  73 15 ",
-                  " 31   97 ",
-                  " 75 91  2",
-                  " 57842 3 ",
-                  "469 75   ",
-                  " 28   5  " ]
       
       before do
+        @before = [
+                    "  2   4  ",
+                    "   28 793",
+                    " 4 16728 ",
+                    "2  73 15 ",
+                    " 31   97 ",
+                    " 75 91  2",
+                    " 57842 3 ",
+                    "469 75   ",
+                    "  8   5  " ]
+        @after = [
+                    "  2   4  ",
+                    "   28 793",
+                    " 4 16728 ",
+                    "2  73 15 ",
+                    " 31   97 ",
+                    " 75 91  2",
+                    " 57842 3 ",
+                    "469 75   ",
+                    " 28   5  " ] # ここの2が埋められるはず
         output = double('output')
         @analyzer = Analyzer.new(@initial_condition, output)
       end
@@ -89,20 +89,7 @@ module Sudoku
       it "should be after" do
         @analyzer.set @before
         @analyzer.analyze_left_columns 2
-p @analyzer.current, "*" * 80
         @analyzer.current.should == @after
-=begin
-        [
-                  "  2   4  ",
-                  "   28 793",
-                  " 4 16728 ",
-                  "2  73 15 ",
-                  " 31   97 ",
-                  " 75 91  2",
-                  " 57842 3 ",
-                  "469 75   ",
-                  " 28   5  " ]
-=end
       end
 
     end
